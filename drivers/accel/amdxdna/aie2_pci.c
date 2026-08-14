@@ -26,6 +26,7 @@
 #include "aie2_msg_priv.h"
 #include "aie2_pci.h"
 #include "aie2_solver.h"
+#include "amdxdna_arm_coverage.h"
 #include "amdxdna_ctx.h"
 #include "amdxdna_dpt.h"
 #include "amdxdna_gem.h"
@@ -824,45 +825,59 @@ static int aie2_get_info(struct amdxdna_client *client, struct amdxdna_drm_get_i
 
 	switch (args->param) {
 	case DRM_AMDXDNA_QUERY_AIE_STATUS:
+		amdxdna_arm_hit(ARM_GET_INFO_QUERY_AIE_STATUS);
 		ret = aie2_get_aie_status(client, args);
 		break;
 	case DRM_AMDXDNA_QUERY_AIE_METADATA:
+		amdxdna_arm_hit(ARM_GET_INFO_QUERY_AIE_METADATA);
 		ret = amdxdna_get_metadata(&ndev->aie, client, args);
 		break;
 	case DRM_AMDXDNA_QUERY_AIE_VERSION:
+		amdxdna_arm_hit(ARM_GET_INFO_QUERY_AIE_VERSION);
 		ret = amdxdna_get_aie_version(client, args, &ndev->aie.version);
 		break;
 	case DRM_AMDXDNA_QUERY_CLOCK_METADATA:
+		amdxdna_arm_hit(ARM_GET_INFO_QUERY_CLOCK_METADATA);
 		ret = aie2_get_clock_metadata(client, args);
 		break;
 	case DRM_AMDXDNA_QUERY_SENSORS:
+		amdxdna_arm_hit(ARM_GET_INFO_QUERY_SENSORS);
 		ret = amdxdna_query_sensors(args, ndev->total_col);
 		break;
 	case DRM_AMDXDNA_QUERY_HW_CONTEXTS:
+		amdxdna_arm_hit(ARM_GET_INFO_QUERY_HW_CONTEXTS);
 		ret = amdxdna_get_hwctx_status(&ndev->aie, client, args);
 		break;
 	case DRM_AMDXDNA_QUERY_FIRMWARE_VERSION:
+		amdxdna_arm_hit(ARM_GET_INFO_QUERY_FIRMWARE_VERSION);
 		ret = amdxdna_get_firmware_version(client, args, &xdna->fw_ver);
 		break;
 	case DRM_AMDXDNA_GET_POWER_MODE:
+		amdxdna_arm_hit(ARM_GET_INFO_GET_POWER_MODE);
 		ret = aie2_get_power_mode(client, args);
 		break;
 	case DRM_AMDXDNA_QUERY_TELEMETRY:
+		amdxdna_arm_hit(ARM_GET_INFO_QUERY_TELEMETRY);
 		ret = amdxdna_get_telemetry(&ndev->aie, client, args);
 		break;
 	case DRM_AMDXDNA_QUERY_RESOURCE_INFO:
+		amdxdna_arm_hit(ARM_GET_INFO_QUERY_RESOURCE_INFO);
 		ret = aie2_query_resource_info(client, args);
 		break;
 	case DRM_AMDXDNA_GET_FORCE_PREEMPT_STATE:
+		amdxdna_arm_hit(ARM_GET_INFO_GET_FORCE_PREEMPT_STATE);
 		ret = amdxdna_get_force_preempt_state(&ndev->aie, args);
 		break;
 	case DRM_AMDXDNA_GET_FRAME_BOUNDARY_PREEMPT_STATE:
+		amdxdna_arm_hit(ARM_GET_INFO_GET_FRAME_BOUNDARY_PREEMPT_STATE);
 		ret = amdxdna_get_frame_boundary_preempt_state(&ndev->aie, args);
 		break;
 	case DRM_AMDXDNA_GET_AUTO_COREDUMP:
+		amdxdna_arm_hit(ARM_GET_INFO_GET_AUTO_COREDUMP);
 		ret = amdxdna_get_auto_coredump_mode(client, args);
 		break;
 	default:
+		amdxdna_arm_hit(ARM_GET_INFO_DEFAULT);
 		XDNA_ERR(xdna, "Not supported request parameter %u", args->param);
 		ret = -EOPNOTSUPP;
 	}
@@ -912,36 +927,47 @@ static int aie2_get_array(struct amdxdna_client *client,
 
 	switch (args->param) {
 	case DRM_AMDXDNA_HW_CONTEXT_ALL:
+		amdxdna_arm_hit(ARM_GET_ARRAY_HW_CONTEXT_ALL);
 		ret = amdxdna_query_ctx_status_array(&ndev->aie, client, args);
 		break;
 	case DRM_AMDXDNA_HW_CONTEXT_BY_ID:
+		amdxdna_arm_hit(ARM_GET_ARRAY_HW_CONTEXT_BY_ID);
 		ret = amdxdna_query_ctx_status_by_id(&ndev->aie, client, args);
 		break;
 	case DRM_AMDXDNA_HW_LAST_ASYNC_ERR:
+		amdxdna_arm_hit(ARM_GET_ARRAY_HW_LAST_ASYNC_ERR);
 		ret = aie2_get_array_async_error(xdna->dev_handle, args);
 		break;
 	case DRM_AMDXDNA_AIE_COREDUMP:
+		amdxdna_arm_hit(ARM_GET_ARRAY_AIE_COREDUMP);
 		ret = amdxdna_get_coredump(&ndev->aie, client, args);
 		break;
 	case DRM_AMDXDNA_BO_USAGE:
+		amdxdna_arm_hit(ARM_GET_ARRAY_BO_USAGE);
 		ret = amdxdna_drm_get_bo_usage(&xdna->ddev, args);
 		break;
 	case DRM_AMDXDNA_AIE_TILE_READ:
+		amdxdna_arm_hit(ARM_GET_ARRAY_AIE_TILE_READ);
 		ret = amdxdna_aie_tile_read(&ndev->aie, client, args);
 		break;
 	case DRM_AMDXDNA_FW_LOG:
+		amdxdna_arm_hit(ARM_GET_ARRAY_FW_LOG);
 		ret = amdxdna_get_fw_log(&ndev->aie, args);
 		break;
 	case DRM_AMDXDNA_FW_LOG_CONFIG:
+		amdxdna_arm_hit(ARM_GET_ARRAY_FW_LOG_CONFIG);
 		ret = amdxdna_get_fw_log_configs(&ndev->aie, args);
 		break;
 	case DRM_AMDXDNA_FW_TRACE:
+		amdxdna_arm_hit(ARM_GET_ARRAY_FW_TRACE);
 		ret = amdxdna_get_fw_trace(&ndev->aie, args);
 		break;
 	case DRM_AMDXDNA_FW_TRACE_CONFIG:
+		amdxdna_arm_hit(ARM_GET_ARRAY_FW_TRACE_CONFIG);
 		ret = amdxdna_get_fw_trace_configs(&ndev->aie, args);
 		break;
 	default:
+		amdxdna_arm_hit(ARM_GET_ARRAY_DEFAULT);
 		XDNA_ERR(xdna, "Not supported request parameter %u", args->param);
 		ret = -EOPNOTSUPP;
 	}
@@ -1025,27 +1051,35 @@ static int aie2_set_state(struct amdxdna_client *client,
 
 	switch (args->param) {
 	case DRM_AMDXDNA_SET_POWER_MODE:
+		amdxdna_arm_hit(ARM_SET_STATE_SET_POWER_MODE);
 		ret = aie2_set_power_mode(client, args, settle_ms);
 		break;
 	case DRM_AMDXDNA_SET_FORCE_PREEMPT:
+		amdxdna_arm_hit(ARM_SET_STATE_SET_FORCE_PREEMPT);
 		ret = amdxdna_set_force_preempt_state(&ndev->aie, client, args);
 		break;
 	case DRM_AMDXDNA_SET_FRAME_BOUNDARY_PREEMPT:
+		amdxdna_arm_hit(ARM_SET_STATE_SET_FRAME_BOUNDARY_PREEMPT);
 		ret = aie2_set_frame_boundary_preempt(client, args);
 		break;
 	case DRM_AMDXDNA_AIE_TILE_WRITE:
+		amdxdna_arm_hit(ARM_SET_STATE_AIE_TILE_WRITE);
 		ret = amdxdna_aie_tile_write(&ndev->aie, client, args);
 		break;
 	case DRM_AMDXDNA_SET_FW_LOG_STATE:
+		amdxdna_arm_hit(ARM_SET_STATE_SET_FW_LOG_STATE);
 		ret = amdxdna_set_fw_log_state(&ndev->aie, args);
 		break;
 	case DRM_AMDXDNA_SET_FW_TRACE_STATE:
+		amdxdna_arm_hit(ARM_SET_STATE_SET_FW_TRACE_STATE);
 		ret = amdxdna_set_fw_trace_state(&ndev->aie, args);
 		break;
 	case DRM_AMDXDNA_SET_AUTO_COREDUMP:
+		amdxdna_arm_hit(ARM_SET_STATE_SET_AUTO_COREDUMP);
 		ret = amdxdna_set_auto_coredump_mode(client, args);
 		break;
 	default:
+		amdxdna_arm_hit(ARM_SET_STATE_DEFAULT);
 		XDNA_ERR(xdna, "Not supported request parameter %u", args->param);
 		ret = -EOPNOTSUPP;
 		break;

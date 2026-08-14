@@ -3,6 +3,7 @@
  * Copyright (C) 2026, Advanced Micro Devices, Inc.
  */
 
+#include "amdxdna_arm_coverage.h"
 #include "amdxdna_cbuf.h"
 #include "amdxdna_debugfs.h"
 #include "amdxdna_dpt.h"
@@ -256,6 +257,9 @@ void amdxdna_debugfs_init(struct amdxdna_dev *xdna)
 				    xdna,
 				    amdxdna_dbgfs_files[i].fops);
 	}
+
+	/* amdxdna-arm-coverage-instrumentation: throwaway, see amdxdna_arm_coverage.h */
+	amdxdna_arm_coverage_debugfs_init(minor->debugfs_root);
 
 	if (xdna->dev_info->ops->debugfs_init)
 		xdna->dev_info->ops->debugfs_init(xdna);

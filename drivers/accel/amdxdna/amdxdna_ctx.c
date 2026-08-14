@@ -14,6 +14,7 @@
 #include <linux/xarray.h>
 #include "trace/events/amdxdna.h"
 
+#include "amdxdna_arm_coverage.h"
 #include "amdxdna_ctx.h"
 #include "amdxdna_gem.h"
 #include "amdxdna_pci_drv.h"
@@ -857,9 +858,11 @@ int amdxdna_drm_submit_cmd_ioctl(struct drm_device *dev, void *data, struct drm_
 
 	switch (args->type) {
 	case AMDXDNA_CMD_SUBMIT_EXEC_BUF:
+		amdxdna_arm_hit(ARM_EXEC_CMD_EXEC_BUF);
 		return amdxdna_drm_submit_execbuf(client, args);
 	}
 
+	amdxdna_arm_hit(ARM_EXEC_CMD_DEFAULT);
 	XDNA_ERR(client->xdna, "Invalid command type %d", args->type);
 	return -EINVAL;
 }

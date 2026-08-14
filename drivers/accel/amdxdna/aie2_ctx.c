@@ -17,6 +17,7 @@
 #include "aie2_msg_priv.h"
 #include "aie2_pci.h"
 #include "aie2_solver.h"
+#include "amdxdna_arm_coverage.h"
 #include "amdxdna_ctx.h"
 #include "amdxdna_gem.h"
 #include "amdxdna_mailbox.h"
@@ -1130,12 +1131,16 @@ int aie2_hwctx_config(struct amdxdna_hwctx *hwctx, u32 type, u64 value, void *bu
 	drm_WARN_ON(&xdna->ddev, !mutex_is_locked(&xdna->dev_lock));
 	switch (type) {
 	case DRM_AMDXDNA_HWCTX_CONFIG_CU:
+		amdxdna_arm_hit(ARM_HWCTX_CONFIG_CU);
 		return aie2_hwctx_cu_config(hwctx, buf, size);
 	case DRM_AMDXDNA_HWCTX_ASSIGN_DBG_BUF:
+		amdxdna_arm_hit(ARM_HWCTX_ASSIGN_DBG_BUF);
 		return aie2_hwctx_cfg_debug_bo(hwctx, (u32)value, true);
 	case DRM_AMDXDNA_HWCTX_REMOVE_DBG_BUF:
+		amdxdna_arm_hit(ARM_HWCTX_REMOVE_DBG_BUF);
 		return aie2_hwctx_cfg_debug_bo(hwctx, (u32)value, false);
 	default:
+		amdxdna_arm_hit(ARM_HWCTX_CONFIG_DEFAULT);
 		XDNA_DBG(xdna, "Not supported type %d", type);
 		return -EOPNOTSUPP;
 	}

@@ -16,6 +16,7 @@
 #include <linux/pci.h>
 
 #include "aie.h"
+#include "amdxdna_arm_coverage.h"
 #include "amdxdna_cbuf.h"
 #include "amdxdna_ctx.h"
 #include "amdxdna_debugfs.h"
@@ -540,6 +541,9 @@ static void amdxdna_remove(struct pci_dev *pdev)
 {
 	struct amdxdna_dev *xdna = pci_get_drvdata(pdev);
 	struct amdxdna_client *client;
+
+	/* amdxdna-arm-coverage-instrumentation: throwaway, see amdxdna_arm_coverage.h */
+	amdxdna_arm_coverage_dump_dmesg();
 
 	drm_dev_unplug(&xdna->ddev);
 	amdxdna_sysfs_fini(xdna);
