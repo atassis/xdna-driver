@@ -830,7 +830,12 @@ amdxdna_gem_create_shmem_object(struct drm_device *dev, struct amdxdna_drm_creat
 
 	if (IS_ERR(shmem))
 		return ERR_CAST(shmem);
-	shmem->map_wc = false;
+	/* LOCAL EXPERIMENT (wc-mapping-coherence-measurement, not for upstream):
+	 * flipped true to measure whether a write-combining mapping gives this
+	 * non-snooping engine host-write visibility without CLFLUSH. See
+	 * docs/kb/map-wc-is-a-one-bool-lever-amdxdna-alone-disables.md.
+	 */
+	shmem->map_wc = true;
 
 #ifdef AMDXDNA_DEVEL
 	if (iommu_mode == AMDXDNA_IOMMU_NO_PASID) {
